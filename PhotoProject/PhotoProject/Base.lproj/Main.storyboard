@@ -75,5 +75,35 @@
             </objects>
             <point key="canvasLocation" x="-130" y="-190"/>
         </scene>
+        <!--Detail ImageVC-->
+        <scene sceneID="r5b-Ix-yZ9">
+            <objects>
+                <viewController storyboardIdentifier="DetailImageVC" id="jaL-uz-bwx" customClass="DetailImageVC" customModule="PhotoProject" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="o7U-Yq-Emw">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q1a-6H-1d5" customClass="ZoomImageView" customModule="ZoomImageView">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="q1a-6H-1d5" firstAttribute="top" secondItem="L5m-9P-6Dx" secondAttribute="top" id="0cP-eb-VpT"/>
+                            <constraint firstItem="L5m-9P-6Dx" firstAttribute="bottom" secondItem="q1a-6H-1d5" secondAttribute="bottom" id="DNz-JU-Srj"/>
+                            <constraint firstItem="q1a-6H-1d5" firstAttribute="leading" secondItem="L5m-9P-6Dx" secondAttribute="leading" id="RQh-KC-6oR"/>
+                            <constraint firstItem="L5m-9P-6Dx" firstAttribute="trailing" secondItem="q1a-6H-1d5" secondAttribute="trailing" id="ldb-Lp-WGB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="L5m-9P-6Dx"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="q1a-6H-1d5" id="BxE-oN-3vh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yck-CM-gnj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="726.08695652173924" y="-190.17857142857142"/>
+        </scene>
     </scenes>
 </document>

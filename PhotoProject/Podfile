@@ -6,5 +6,6 @@ target 'PhotoProject' do
   use_frameworks!
 
   pod 'SwiftyJSON', '5.0.0'
+  pod 'ZoomImageView', '0.6.0'
 
 end
