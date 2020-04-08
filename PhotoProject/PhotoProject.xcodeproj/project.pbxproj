@@ -14,11 +14,36 @@
 		0B27B8D7243DB65A00CAEC2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B27B8D5243DB65A00CAEC2C /* LaunchScreen.storyboard */; };
 		0B27B8E0243DB88100CAEC2C /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B27B8DE243DB88100CAEC2C /* PhotoCollectionViewCell.swift */; };
 		0B27B8E1243DB88100CAEC2C /* PhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B27B8DF243DB88100CAEC2C /* PhotoCollectionViewCell.xib */; };
-		0B27B8E3243DBF9800CAEC2C /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B27B8E2243DBF9800CAEC2C /* API.swift */; };
 		0B27B8E5243DD1CC00CAEC2C /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B27B8E4243DD1CC00CAEC2C /* Photo.swift */; };
 		0B27B8E7243E0F2B00CAEC2C /* DetailImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B27B8E6243E0F2B00CAEC2C /* DetailImageVC.swift */; };
+		0B312475243E212D00363242 /* PhotoAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B312474243E212400363242 /* PhotoAPI.framework */; };
+		0B312476243E212D00363242 /* PhotoAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B312474243E212400363242 /* PhotoAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1A968DFBE160011C5A18B957 /* Pods_PhotoProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED4EDBF652898EE992FA0AB4 /* Pods_PhotoProject.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0B312473243E212400363242 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0B31246F243E212400363242 /* PhotoAPI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0B312462243E20EA00363242;
+			remoteInfo = PhotoAPI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0B312477243E212D00363242 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0B312476243E212D00363242 /* PhotoAPI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0B27B8C7243DB65900CAEC2C /* PhotoProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,9 +55,9 @@
 		0B27B8D8243DB65A00CAEC2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B27B8DE243DB88100CAEC2C /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		0B27B8DF243DB88100CAEC2C /* PhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCollectionViewCell.xib; sourceTree = "<group>"; };
-		0B27B8E2243DBF9800CAEC2C /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		0B27B8E4243DD1CC00CAEC2C /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		0B27B8E6243E0F2B00CAEC2C /* DetailImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageVC.swift; sourceTree = "<group>"; };
+		0B31246F243E212400363242 /* PhotoAPI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PhotoAPI.xcodeproj; path = ../PhotoAPI/PhotoAPI.xcodeproj; sourceTree = "<group>"; };
 		79059DBE0830460F49E433E4 /* Pods-PhotoProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoProject.release.xcconfig"; path = "Target Support Files/Pods-PhotoProject/Pods-PhotoProject.release.xcconfig"; sourceTree = "<group>"; };
 		CE21B7A62B4D4588392BC846 /* Pods-PhotoProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoProject.debug.xcconfig"; path = "Target Support Files/Pods-PhotoProject/Pods-PhotoProject.debug.xcconfig"; sourceTree = "<group>"; };
 		ED4EDBF652898EE992FA0AB4 /* Pods_PhotoProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B312475243E212D00363242 /* PhotoAPI.framework in Frameworks */,
 				1A968DFBE160011C5A18B957 /* Pods_PhotoProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53,6 +79,7 @@
 		0B27B8BE243DB65900CAEC2C = {
 			isa = PBXGroup;
 			children = (
+				0B31246F243E212400363242 /* PhotoAPI.xcodeproj */,
 				0B27B8C9243DB65900CAEC2C /* PhotoProject */,
 				0B27B8C8243DB65900CAEC2C /* Products */,
 				F0FDB99F8B60FC4A187F8B22 /* Pods */,
@@ -79,11 +106,18 @@
 				0B27B8D8243DB65A00CAEC2C /* Info.plist */,
 				0B27B8DE243DB88100CAEC2C /* PhotoCollectionViewCell.swift */,
 				0B27B8DF243DB88100CAEC2C /* PhotoCollectionViewCell.xib */,
-				0B27B8E2243DBF9800CAEC2C /* API.swift */,
 				0B27B8E4243DD1CC00CAEC2C /* Photo.swift */,
 				0B27B8E6243E0F2B00CAEC2C /* DetailImageVC.swift */,
 			);
 			path = PhotoProject;
+			sourceTree = "<group>";
+		};
+		0B312470243E212400363242 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0B312474243E212400363242 /* PhotoAPI.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		4EB87DA453F8825199F200D0 /* Frameworks */ = {
@@ -115,6 +149,7 @@
 				0B27B8C4243DB65900CAEC2C /* Frameworks */,
 				0B27B8C5243DB65900CAEC2C /* Resources */,
 				E0FA43A2167EEF2D0DCB5F06 /* [CP] Embed Pods Frameworks */,
+				0B312477243E212D00363242 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -151,12 +186,28 @@
 			mainGroup = 0B27B8BE243DB65900CAEC2C;
 			productRefGroup = 0B27B8C8243DB65900CAEC2C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0B312470243E212400363242 /* Products */;
+					ProjectRef = 0B31246F243E212400363242 /* PhotoAPI.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				0B27B8C6243DB65900CAEC2C /* PhotoProject */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0B312474243E212400363242 /* PhotoAPI.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PhotoAPI.framework;
+			remoteRef = 0B312473243E212400363242 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0B27B8C5243DB65900CAEC2C /* Resources */ = {
@@ -222,7 +273,6 @@
 				0B27B8CF243DB65900CAEC2C /* ViewController.swift in Sources */,
 				0B27B8E7243E0F2B00CAEC2C /* DetailImageVC.swift in Sources */,
 				0B27B8CB243DB65900CAEC2C /* AppDelegate.swift in Sources */,
-				0B27B8E3243DBF9800CAEC2C /* API.swift in Sources */,
 				0B27B8E0243DB88100CAEC2C /* PhotoCollectionViewCell.swift in Sources */,
 				0B27B8E5243DD1CC00CAEC2C /* Photo.swift in Sources */,
 			);

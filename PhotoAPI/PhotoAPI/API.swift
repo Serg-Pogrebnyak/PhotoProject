@@ -1,15 +1,15 @@
 //
 //  API.swift
-//  PhotoProject
+//  PhotoAPI
 //
 //  Created by Sergey Pohrebnuak on 08.04.2020.
 //  Copyright © 2020 Sergey Pohrebnuak. All rights reserved.
 //
 import Foundation
 
-class API {
+public class API {
     
-    static var shared = API()
+    public static var shared = API()
     
     fileprivate static let baseURL = "https://api.unsplash.com/"
     fileprivate static let photos = "photos"
@@ -21,13 +21,13 @@ class API {
         case get = "GET"
     }
     
-    func getPhotosFromRoll(page: Int, countPerPage: Int, callback: @escaping (Any?) -> Void) {
+    public func getPhotosFromRoll(page: Int, countPerPage: Int, callback: @escaping (Any?) -> Void) {
         sendRequest(API.baseURL + API.photos + "?page=\(page)&per_page=\(countPerPage)", method: .get) { (json) in
             callback(json)
         }
     }
     
-    func getPhotosBySearch(text: String, page: Int, countPerPage: Int, callback: @escaping (Any?) -> Void) {
+    public func getPhotosBySearch(text: String, page: Int, countPerPage: Int, callback: @escaping (Any?) -> Void) {
         sendRequest(API.baseURL + API.searchPhotos + "?query=\(text)&page=\(page)&per_page=\(countPerPage)", method: .get) { (json) in
             guard   let jsonStruct = json as? [String: Any],
                     let json = jsonStruct["results"]
