@@ -5,8 +5,7 @@
 //  Created by Sergey Pohrebnuak on 08.04.2020.
 //  Copyright © 2020 Sergey Pohrebnuak. All rights reserved.
 //
-
-import SwiftyJSON
+import Foundation
 
 class API {
     
@@ -22,30 +21,28 @@ class API {
         case get = "GET"
     }
     
-    func getPhotosFromRoll(page: Int, countPerPage: Int, callback: @escaping ([JSON]?) -> Void) {
-        sendRequest(API.baseURL + API.photos + "?page=\(page)&per_page=\(countPerPage)", method: .get) { (json, isError) in
-            guard !isError, let arrayOfJson = json?.array else {
-                callback(nil)
-                return
-            }
-            callback(arrayOfJson)
+    func getPhotosFromRoll(page: Int, countPerPage: Int, callback: @escaping (Any?) -> Void) {
+        sendRequest(API.baseURL + API.photos + "?page=\(page)&per_page=\(countPerPage)", method: .get) { (json) in
+            callback(json)
         }
     }
     
-    func getPhotosBySearch(text: String, page: Int, countPerPage: Int, callback: @escaping ([JSON]?) -> Void) {
-        sendRequest(API.baseURL + API.searchPhotos + "?query=\(text)&page=\(page)&per_page=\(countPerPage)", method: .get) { (json, isError) in
-            guard !isError, let arrayOfJson = json?["results"].array else {
+    func getPhotosBySearch(text: String, page: Int, countPerPage: Int, callback: @escaping (Any?) -> Void) {
+        sendRequest(API.baseURL + API.searchPhotos + "?query=\(text)&page=\(page)&per_page=\(countPerPage)", method: .get) { (json) in
+            guard   let jsonStruct = json as? [String: Any],
+                    let json = jsonStruct["results"]
+            else {
                 callback(nil)
                 return
             }
-            callback(arrayOfJson)
+            callback(json)
         }
     }
     
     fileprivate func sendRequest(_ url: String,
                                  method: Method = .post,
                                  jsonParams: [String : Any]? = nil,
-                                 callback: @escaping ((JSON?, Bool) -> ())) {
+                                 callback: @escaping ((Any?) -> ())) {
         do {
             
             guard let url = URL(string: url) else {return}
@@ -65,13 +62,13 @@ class API {
                         error == nil,
                         let httpUrlResponse = response as? HTTPURLResponse,
                         httpUrlResponse.statusCode == 200,
-                        let jsonObject = try? JSON(data: data)
+                        let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [])
                 else {
-                    callback(nil, true)
+                    callback(nil)
                     return
                 }
                 
-                callback(jsonObject, false)
+                callback(jsonObject)
                 
             })
             task.resume()

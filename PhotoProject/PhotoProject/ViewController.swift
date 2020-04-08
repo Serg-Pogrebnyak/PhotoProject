@@ -62,23 +62,24 @@ class ViewController: UIViewController {
     //MARK: Functions for loading photos
     fileprivate func loadPhoto() {
         isLoadPhotoNow = true
-        API.shared.getPhotosFromRoll(page: currentPhotoPage, countPerPage: countPhotoPerPage) { [weak self] (optionalArray) in
+        API.shared.getPhotosFromRoll(page: currentPhotoPage, countPerPage: countPhotoPerPage) { [weak self] (dictionaryOptional) in
             self?.isLoadPhotoNow = false
-            guard let array = optionalArray else {return}
-            self?.convertJSONArray(jsonArray: array)
+            self?.convertJSONArray(object: dictionaryOptional)
         }
     }
     
     fileprivate func loadPhotoBySearch() {
         guard searchBar.text!.count > 3 else {return}
-        API.shared.getPhotosBySearch(text: searchBar.text!, page: currentPhotoPage, countPerPage: countPhotoPerPage) { [weak self] (optionalArray) in
-            guard let array = optionalArray else {return}
-            self?.convertJSONArray(jsonArray: array)
+        API.shared.getPhotosBySearch(text: searchBar.text!, page: currentPhotoPage, countPerPage: countPhotoPerPage) { [weak self] (dictionaryOptional) in
+            self?.convertJSONArray(object: dictionaryOptional)
         }
     }
     
     //additional function for convert from json to model
-    fileprivate func convertJSONArray(jsonArray array: [JSON]) {
+    fileprivate func convertJSONArray(object: Any?) {
+        guard   let dictionary = object,
+                let array = JSON(dictionary).array else {return}
+        
         for object in array {
             let newItem = Photo(fromJson: object) {
                 DispatchQueue.main.async {
