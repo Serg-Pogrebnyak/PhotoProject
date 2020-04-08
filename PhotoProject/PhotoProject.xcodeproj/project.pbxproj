@@ -12,6 +12,8 @@
 		0B27B8D2243DB65900CAEC2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B27B8D0243DB65900CAEC2C /* Main.storyboard */; };
 		0B27B8D4243DB65A00CAEC2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B27B8D3243DB65A00CAEC2C /* Assets.xcassets */; };
 		0B27B8D7243DB65A00CAEC2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B27B8D5243DB65A00CAEC2C /* LaunchScreen.storyboard */; };
+		0B27B8E0243DB88100CAEC2C /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B27B8DE243DB88100CAEC2C /* PhotoCollectionViewCell.swift */; };
+		0B27B8E1243DB88100CAEC2C /* PhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B27B8DF243DB88100CAEC2C /* PhotoCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		0B27B8D3243DB65A00CAEC2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B27B8D6243DB65A00CAEC2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0B27B8D8243DB65A00CAEC2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B27B8DE243DB88100CAEC2C /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		0B27B8DF243DB88100CAEC2C /* PhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				0B27B8D3243DB65A00CAEC2C /* Assets.xcassets */,
 				0B27B8D5243DB65A00CAEC2C /* LaunchScreen.storyboard */,
 				0B27B8D8243DB65A00CAEC2C /* Info.plist */,
+				0B27B8DE243DB88100CAEC2C /* PhotoCollectionViewCell.swift */,
+				0B27B8DF243DB88100CAEC2C /* PhotoCollectionViewCell.xib */,
 			);
 			path = PhotoProject;
 			sourceTree = "<group>";
@@ -123,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B27B8D7243DB65A00CAEC2C /* LaunchScreen.storyboard in Resources */,
+				0B27B8E1243DB88100CAEC2C /* PhotoCollectionViewCell.xib in Resources */,
 				0B27B8D4243DB65A00CAEC2C /* Assets.xcassets in Resources */,
 				0B27B8D2243DB65900CAEC2C /* Main.storyboard in Resources */,
 			);
@@ -137,6 +144,7 @@
 			files = (
 				0B27B8CF243DB65900CAEC2C /* ViewController.swift in Sources */,
 				0B27B8CB243DB65900CAEC2C /* AppDelegate.swift in Sources */,
+				0B27B8E0243DB88100CAEC2C /* PhotoCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
