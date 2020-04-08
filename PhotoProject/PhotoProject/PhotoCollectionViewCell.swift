@@ -10,9 +10,14 @@ import UIKit
 
 class PhotoCollectionViewCell: UICollectionViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    @IBOutlet fileprivate weak var photoImageView: UIImageView!
+    @IBOutlet fileprivate weak var heightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var widthConstraint: NSLayoutConstraint!
+    
+    func setDataInCell(photoItem item: Photo) {
+        heightConstraint.constant = self.bounds.size.height
+        widthConstraint.constant = self.bounds.size.width
+        photoImageView.image = item.image
     }
 
 }

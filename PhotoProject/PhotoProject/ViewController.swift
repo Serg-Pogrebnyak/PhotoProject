@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class ViewController: UIViewController {
 
@@ -14,11 +15,33 @@ class ViewController: UIViewController {
     
     fileprivate let spacingBetweenCell: CGFloat = 10.0
     fileprivate let countCellInRow = 3
+    fileprivate var arrayOfPhoto = [Photo]()
+    fileprivate var currentPhotoPage = 1
+    fileprivate var countPhotoPerPage = 20
+    fileprivate var isLoadPhotoNow = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let nib = UINib.init(nibName: "PhotoCollectionViewCell", bundle: nil)
         photoCollectionView.register(nib, forCellWithReuseIdentifier: "PhotoCollectionViewCell")
+        
+        loadPhoto()
+    }
+    
+    fileprivate func loadPhoto() {
+        isLoadPhotoNow = true
+        API.shared.getPhotoFromRoll(page: currentPhotoPage, countPerPage: countPhotoPerPage) { [weak self] (optionalArray) in
+            self?.isLoadPhotoNow = false
+            guard let arrayOfJson = optionalArray else {return}
+            for object in arrayOfJson {
+                let newItem = Photo(fromJson: object) {
+                    DispatchQueue.main.async {
+                        self?.photoCollectionView.reloadData()
+                    }
+                }
+                self?.arrayOfPhoto.append(newItem)
+            }
+        }
     }
 }
 
@@ -28,12 +51,20 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return arrayOfPhoto.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
+        cell.setDataInCell(photoItem: arrayOfPhoto[indexPath.row])
         return cell
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (scrollView.contentOffset.y + 1) >= (scrollView.contentSize.height - scrollView.frame.size.height) && !isLoadPhotoNow && currentPhotoPage < 10 {
+            self.currentPhotoPage += 1
+            self.loadPhoto()
+        }
     }
 }
 
