@@ -48,7 +48,7 @@ class API {
                                  callback: @escaping ((JSON?, Bool) -> ())) {
         do {
             
-            let url = URL(string: url)!
+            guard let url = URL(string: url) else {return}
             let session = URLSession.shared
             var request = URLRequest(url: url)
             request.httpMethod = method.rawValue

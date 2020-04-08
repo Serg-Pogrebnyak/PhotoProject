@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     fileprivate var countPhotoPerPage = 30
     fileprivate var isLoadPhotoNow = false
     fileprivate var currentMode = Mode.normal
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
