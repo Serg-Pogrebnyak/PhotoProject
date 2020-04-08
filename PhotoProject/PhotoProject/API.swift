@@ -14,6 +14,7 @@ class API {
     
     fileprivate static let baseURL = "https://api.unsplash.com/"
     fileprivate static let photos = "photos"
+    fileprivate static let searchPhotos = "search/photos"
     fileprivate static let accessKey = "Client-ID 4c9fbfbbd92c17a2e95081cec370b4511659666240eb4db9416c40c641ee843b"
     
     enum Method: String {
@@ -21,9 +22,19 @@ class API {
         case get = "GET"
     }
     
-    func getPhotoFromRoll(page: Int, countPerPage: Int, callback: @escaping ([JSON]?) -> Void) {
+    func getPhotosFromRoll(page: Int, countPerPage: Int, callback: @escaping ([JSON]?) -> Void) {
         sendRequest(API.baseURL + API.photos + "?page=\(page)&per_page=\(countPerPage)", method: .get) { (json, isError) in
             guard !isError, let arrayOfJson = json?.array else {
+                callback(nil)
+                return
+            }
+            callback(arrayOfJson)
+        }
+    }
+    
+    func getPhotosBySearch(text: String, page: Int, countPerPage: Int, callback: @escaping ([JSON]?) -> Void) {
+        sendRequest(API.baseURL + API.searchPhotos + "?query=\(text)&page=\(page)&per_page=\(countPerPage)", method: .get) { (json, isError) in
+            guard !isError, let arrayOfJson = json?["results"].array else {
                 callback(nil)
                 return
             }

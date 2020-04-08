@@ -10,38 +10,94 @@ import UIKit
 import SwiftyJSON
 
 class ViewController: UIViewController {
+    
+    enum Mode {
+        case normal
+        case search
+    }
 
     @IBOutlet fileprivate weak var photoCollectionView: UICollectionView!
     
+    fileprivate var closeSearchButton: UIBarButtonItem!
+    fileprivate var searchBar = UISearchBar(frame: CGRect.zero)
     fileprivate let spacingBetweenCell: CGFloat = 10.0
     fileprivate let countCellInRow = 3
     fileprivate var arrayOfPhoto = [Photo]()
     fileprivate var currentPhotoPage = 1
-    fileprivate var countPhotoPerPage = 20
+    fileprivate var countPhotoPerPage = 30
     fileprivate var isLoadPhotoNow = false
+    fileprivate var currentMode = Mode.normal
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar.delegate = self
+        //add tap recognizer for search bar
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(titleWasTapped))
+        self.navigationController?.navigationBar.addGestureRecognizer(recognizer)
+        
         let nib = UINib.init(nibName: "PhotoCollectionViewCell", bundle: nil)
         photoCollectionView.register(nib, forCellWithReuseIdentifier: "PhotoCollectionViewCell")
+        
+        closeSearchButton = UIBarButtonItem(title: "Close",
+                                            style: .done,
+                                            target: self,
+                                            action: #selector(closeSearch))
         
         loadPhoto()
     }
     
+    //MARK: - Fileprivate functions
+    //MARK: Functions for loading photos
     fileprivate func loadPhoto() {
         isLoadPhotoNow = true
-        API.shared.getPhotoFromRoll(page: currentPhotoPage, countPerPage: countPhotoPerPage) { [weak self] (optionalArray) in
+        API.shared.getPhotosFromRoll(page: currentPhotoPage, countPerPage: countPhotoPerPage) { [weak self] (optionalArray) in
             self?.isLoadPhotoNow = false
-            guard let arrayOfJson = optionalArray else {return}
-            for object in arrayOfJson {
-                let newItem = Photo(fromJson: object) {
-                    DispatchQueue.main.async {
-                        self?.photoCollectionView.reloadData()
-                    }
-                }
-                self?.arrayOfPhoto.append(newItem)
-            }
+            guard let array = optionalArray else {return}
+            self?.convertJSONArray(jsonArray: array)
         }
+    }
+    
+    fileprivate func loadPhotoBySearch() {
+        guard searchBar.text!.count > 3 else {return}
+        API.shared.getPhotosBySearch(text: searchBar.text!, page: currentPhotoPage, countPerPage: countPhotoPerPage) { [weak self] (optionalArray) in
+            guard let array = optionalArray else {return}
+            self?.convertJSONArray(jsonArray: array)
+        }
+    }
+    
+    //additional function for convert from json to model
+    fileprivate func convertJSONArray(jsonArray array: [JSON]) {
+        for object in array {
+            let newItem = Photo(fromJson: object) {
+                DispatchQueue.main.async {
+                    self.photoCollectionView.reloadData()
+                }
+            }
+            self.arrayOfPhoto.append(newItem)
+        }
+    }
+    //MARK: selector functions for UI
+    @objc fileprivate func titleWasTapped() {
+        if navigationItem.titleView == nil {
+            self.navigationItem.rightBarButtonItem = closeSearchButton
+            currentMode = .search
+            photoCollectionView.reloadData()
+            navigationItem.titleView = searchBar
+            searchBar.becomeFirstResponder()
+            currentPhotoPage = 1
+        }
+    }
+    
+    @objc fileprivate func closeSearch() {
+        photoCollectionView.scrollsToTop = true
+        arrayOfPhoto.removeAll()
+        navigationItem.rightBarButtonItem = nil
+        navigationItem.titleView = nil
+        currentMode = .normal
+        photoCollectionView.reloadData()
+        currentPhotoPage = 1
+        loadPhoto()
     }
 }
 
@@ -56,6 +112,7 @@ extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
+        guard arrayOfPhoto.count > indexPath.row else {return cell}
         cell.setDataInCell(photoItem: arrayOfPhoto[indexPath.row])
         return cell
     }
@@ -63,7 +120,12 @@ extension ViewController: UICollectionViewDataSource {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (scrollView.contentOffset.y + 1) >= (scrollView.contentSize.height - scrollView.frame.size.height) && !isLoadPhotoNow && currentPhotoPage < 10 {
             self.currentPhotoPage += 1
-            self.loadPhoto()
+            switch currentMode {
+            case .normal:
+                self.loadPhoto()
+            case .search:
+                self.loadPhotoBySearch()
+            }
         }
     }
 }
@@ -71,12 +133,33 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widthSize = self.photoCollectionView.bounds.size.width/CGFloat(countCellInRow) - spacingBetweenCell
+        var widthSize: CGFloat!
+        switch currentMode {
+        case .normal:
+            widthSize = self.photoCollectionView.bounds.size.width/CGFloat(countCellInRow) - spacingBetweenCell
+        case .search:
+            widthSize = self.photoCollectionView.bounds.size.width
+        }
         return CGSize(width: widthSize, height: widthSize)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return spacingBetweenCell
+    }
+}
+
+extension ViewController: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.count > 3 {
+            arrayOfPhoto.removeAll()
+            currentPhotoPage = 1
+            loadPhotoBySearch()
+        }
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.searchBar.resignFirstResponder()
     }
 }
 
