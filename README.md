@@ -8,4 +8,4 @@ You can clone/download/open in XCode this project set your provision profile and
 
 ## Authors
 
-* **Serhii Pohrebniak** - *iPhone Team* - [Serg-Pogrebnyak](https://github.com/Serg-Pogrebnyak)
+* **Serhii Pohrebniak** - *iOS Developer* - [Serg-Pogrebnyak](https://github.com/Serg-Pogrebnyak)
