@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet fileprivate weak var photoCollectionView: UICollectionView!
     
     fileprivate var closeSearchButton: UIBarButtonItem!
+    fileprivate var cellLongPressRecognizer : UILongPressGestureRecognizer!
     fileprivate var searchBar = UISearchBar(frame: CGRect.zero)
     fileprivate let spacingBetweenCell: CGFloat = 10.0
     fileprivate let countCellInRow = 3
@@ -31,23 +32,33 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchBar.delegate = self
-        //add tap recognizer for search bar
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(titleWasTapped))
-        self.navigationController?.navigationBar.addGestureRecognizer(recognizer)
-        
-        let nib = UINib.init(nibName: "PhotoCollectionViewCell", bundle: nil)
-        photoCollectionView.register(nib, forCellWithReuseIdentifier: "PhotoCollectionViewCell")
-        
-        closeSearchButton = UIBarButtonItem(title: "Close",
-                                            style: .done,
-                                            target: self,
-                                            action: #selector(closeSearch))
-        
+        configureUI()
+        //load first page of photos
         loadPhoto()
     }
     
     //MARK: - Fileprivate functions
+    fileprivate func configureUI() {
+        //add tap recognizer on navigation bar for search bar
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(titleWasTapped))
+        self.navigationController?.navigationBar.addGestureRecognizer(recognizer)
+        //add cell for collection view
+        let nib = UINib.init(nibName: "PhotoCollectionViewCell", bundle: nil)
+        photoCollectionView.register(nib, forCellWithReuseIdentifier: "PhotoCollectionViewCell")
+        //search bar and cancell button
+        searchBar.delegate = self
+        closeSearchButton = UIBarButtonItem(title: "Close",
+                                            style: .done,
+                                            target: self,
+                                            action: #selector(closeSearch))
+        //configure long press recognizer
+        cellLongPressRecognizer = UILongPressGestureRecognizer(target: self,
+                                                               action: #selector(handleLongPress(gestureRecognizer:)))
+        cellLongPressRecognizer.minimumPressDuration = 0.5
+        cellLongPressRecognizer.delaysTouchesBegan = true
+        cellLongPressRecognizer.isEnabled = false
+        photoCollectionView.addGestureRecognizer(cellLongPressRecognizer)
+    }
     //MARK: Functions for loading photos
     fileprivate func loadPhoto() {
         isLoadPhotoNow = true
@@ -80,6 +91,7 @@ class ViewController: UIViewController {
     //MARK: selector functions for UI
     @objc fileprivate func titleWasTapped() {
         if navigationItem.titleView == nil {
+            cellLongPressRecognizer.isEnabled = true
             self.navigationItem.rightBarButtonItem = closeSearchButton
             currentMode = .search
             photoCollectionView.reloadData()
@@ -90,6 +102,7 @@ class ViewController: UIViewController {
     }
     
     @objc fileprivate func closeSearch() {
+        cellLongPressRecognizer.isEnabled = false
         photoCollectionView.scrollsToTop = true
         arrayOfPhoto.removeAll()
         navigationItem.rightBarButtonItem = nil
@@ -98,6 +111,22 @@ class ViewController: UIViewController {
         photoCollectionView.reloadData()
         currentPhotoPage = 1
         loadPhoto()
+    }
+    @objc fileprivate func handleLongPress(gestureRecognizer : UILongPressGestureRecognizer) {
+        let p = gestureRecognizer.location(in: self.photoCollectionView)
+        guard   gestureRecognizer.state == .ended,
+            let indexPath : NSIndexPath = photoCollectionView.indexPathForItem(at: p) as NSIndexPath?
+            else {return}
+
+        let alert = UIAlertController(title: "Are you sure?", message: "Photo will be removed, confirm please!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .destructive) { [weak self]action in
+            self?.arrayOfPhoto.remove(at: indexPath.row)
+            self?.photoCollectionView.reloadData()
+        }
+        let cancell = UIAlertAction(title: "Cancell", style: .default)
+        alert.addAction(okAction)
+        alert.addAction(cancell)
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -162,4 +191,3 @@ extension ViewController: UISearchBarDelegate {
         self.searchBar.resignFirstResponder()
     }
 }
-
