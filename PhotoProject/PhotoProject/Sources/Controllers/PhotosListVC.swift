@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PhotosListVC.swift
 //  PhotoProject
 //
 //  Created by Sergey Pohrebnuak on 08.04.2020.
@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 import PhotoAPI
 
-class ViewController: UIViewController {
+class PhotosListVC: UIViewController {
     
     enum Mode {
         case normal
@@ -132,7 +132,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension PhotosListVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let datailImageVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailImageVC") as! DetailImageVC
         datailImageVC.currentPhoto = arrayOfPhoto[indexPath.row]
@@ -140,7 +140,7 @@ extension ViewController: UICollectionViewDelegate {
     }
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension PhotosListVC: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -169,7 +169,7 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension PhotosListVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var widthSize: CGFloat!
@@ -187,7 +187,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ViewController: UISearchBarDelegate {
+extension PhotosListVC: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count > 3 {
